@@ -42,9 +42,13 @@ app.use(session({
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
+
+app.use(function(req, res, next) {
+	res.locals.userInfo = req.user;
+	next();
+});
 
 // Routes
 var mainRoutes = require('./routes/main');

@@ -9,11 +9,14 @@ var passportConf = require('../passport');
 
 router.get('/login', function(req, res) {
 	if (req.user) return res.redirect('/');
-	res.render('accounts/login', { message: req.flash('LoginMessage') });
+
+	res.render('accounts/login', {
+		message: req.flash('LoginMessage')
+	});
 });
 
 router.post('/login', passport.authenticate('local-login', {
-	successRedirect: '/profile',
+	successRedirect: '/',
 	failureRedirect: '/login',
 	failureFlash: true
 }));
