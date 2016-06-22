@@ -1,6 +1,10 @@
 'use strict';
 var util = require('util');
 
+var server = {
+	port: 3000
+}
+
 var db = {
 	username: "root",
 	password: "root",
@@ -13,9 +17,12 @@ var session = {
 	secret: ";o]NT]d82nWU;S`;0P8aZ6fvLQVD8-"
 }
 
+
+
 module.exports = function() {
 	return {
 		db: db,
-		session: session
+		session: session,
+		server: server
 	}
 };

@@ -12,6 +12,8 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var flash = require('express-flash');
 var util = require('util');
+var MongoStore = require('connect-mongo/es5')(session);
+var passport = require('passport');
 
 //	Models
 var User = require('./models/user');
@@ -31,9 +33,15 @@ app.use(cookieParser());
 app.use(session({
 	resave: true,
 	saveUninitialized: true,
-	secret: config.session.secret
+	secret: config.session.secret,
+	store: new MongoStore({
+		url: config.db.connectionString(),
+		autoReconnect: true
+	})
 }));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
@@ -47,5 +55,5 @@ app.use(userRoutes);
 
 app.listen(3000, function(err) {
 	if (err) throw err;
-	console.log("Server is Running on Port %d", 3000);
+	console.log("Server is Running on Port %d", config.server.port);
 })
